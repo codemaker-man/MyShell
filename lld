@@ -1,0 +1,60 @@
+
+#!/bin/bash
+#Be used for making description to the Switch ports  Version:1.0  maker:dennis-xing date:20171204  
+#
+#
+input () {
+    read -p "Please input the begin of Switch port,like 1/0/1 :" port
+    read -p "Please input the begining of Server,like C01/24/3U/RH2288H/card1-0 :" server
+    read -p "Please input the number of Servers,like 10 : " number
+    read -p "How much lenght between two servers,like 2 : " u
+}
+cut_input () { 
+    s1=$(echo "$server" | cut -d/ -f1)
+    s2=$(echo "$server" | cut -d/ -f2)
+    s3=$(echo "$server" | cut -d/ -f3| grep -o ^[[:digit:]]* )
+    s4=$(echo "$server" | cut -d/ -f4)
+    s5=$(echo "$server" | cut -d/ -f5)
+    p1=$(echo "$port"  | cut -d/ -f1)
+    p2=$(echo "$port" | cut -d/ -f2)
+    p3=$(echo "$port" | cut -d/ -f3)    
+}
+
+while true; do
+     echo '*********************'
+     read -p "Please choose 1.continue 2.double 3.quit : " choose
+     
+     if [ $choose -eq 1 ]; then
+        input
+        cut_input
+
+        for ((i=0;i<$number;i++)); do
+            p=$[$p3+$i]
+            q=$[$s3+$[$u*$i]]
+            echo "#"
+            echo " int 10g "$p1"/"$p2"/"$p" "
+            echo "description  *** To "$s1"/"$s2"/"$q"U/"$s4"/"$s5"  "         
+        done
+     elif [ $choose -eq 2 ]; then
+        input
+        cut_input
+
+        for ((i=0;i<$number;i++)); do
+            p=$[$p3+$i]
+            q=$[$s3+$[$u*$i]]
+            z=$(echo "$s5" |grep -o .$)
+            echo "#"
+            echo " int 10g "$p1"/"$p2"/"$p" "
+            echo "description  *** To "$s1"/"$s2"/"$q"U/"$s4"/"$s5"  "
+
+            echo "#"
+            echo " int 10g "2"/"$p2"/"$p" "
+            echo "description  *** To "$s1"/"$s2"/"$q"U/"$s4"/"card2-""$z" "
+        done
+    else 
+          break    
+     fi
+done        
+
+
+     

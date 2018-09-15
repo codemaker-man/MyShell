@@ -1,0 +1,71 @@
+
+#!/bin/bash
+
+# Input start-> touch /var/lock/subsys/file
+# Input stop-> delete /var/lock/subsys/file
+# Input restart-> stop and start
+# Input status-> If the file does not exist
+
+filename=$(basename $0)  
+lockfile=/var/lock/subsys/$filename
+
+start () {
+     if [ -e $lockfile ]; then
+        echo " $lockfile has been touched"
+     else
+        touch $lockfile
+        echo " $lockfile starts successful"
+     fi
+     }
+stop () {
+     if [ -e $lockfile ]; then
+        rm $lockfile
+        echo " $lockfile stop  successful "
+     else
+        echo " $lockfile has been deleted "
+     fi
+     }
+restart () {
+     stop
+     start
+     }
+status () {
+     if [ -e $lockfile ]; then
+        echo "$lockfile is running"
+     else  
+         echo "$lockfile is stopped"
+     fi
+     }
+usage () {
+     echo " Error,please input start,stop,restart , status or quit "
+     }
+
+ while true; do
+
+ read -p "Please input start,stop,restart,status or quit: " input      
+ if [ "$input" = "quit" ]; then
+    break
+ else 
+        case $input in
+        start)
+               start
+                ;;
+         stop)
+                stop
+                ;;
+        restart)
+               restart
+                ;;
+         status)
+               status
+                 ;;
+          *)
+               usage
+                 ;;
+          esac
+  fi
+done
+
+
+
+      

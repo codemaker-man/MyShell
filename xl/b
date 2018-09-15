@@ -1,0 +1,17 @@
+
+#!/bin/bash
+
+declare -i i=0
+declare -i s=0
+
+while [ $i -lt 100 ]; do
+      let i++
+      if [ $[$i%2] -eq 1 ]; then
+          continue
+      else
+          let s=s+i
+      fi
+done
+
+echo "$s"
+     

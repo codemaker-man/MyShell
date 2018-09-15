@@ -1,0 +1,15 @@
+
+#!/bin/bash
+
+read -p "Please input username :" username
+
+while true; do
+     if who | grep "$username" &> /dev/null; then
+        break
+     else
+        sleep 3
+     fi
+
+done
+
+echo "$(date) $username logged " 

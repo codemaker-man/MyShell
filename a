@@ -1,0 +1,15 @@
+
+#!/bin/bash
+
+#  n!
+declare -i a
+func () { 
+     if [ $1 -eq 1 ]; then
+        echo 1
+     else 
+        echo $[$1*$(func $[$1-1])]]
+    fi
+     }
+
+func 6
+
